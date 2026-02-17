@@ -114,7 +114,8 @@ datagen agents deploy <agent-id>
 
 ```bash
 # Set the entry prompt (what the agent receives when triggered)
-datagen agents config <agent-id> --set-prompt "Your task prompt here"
+# Use {{payload.field_name}} to reference fields from the trigger payload
+datagen agents config <agent-id> --set-prompt "Your task targeting {{payload.company}}, {{payload.domain}}"
 
 # Attach secrets the agent needs at runtime
 datagen agents config <agent-id> --secrets OPENAI_API_KEY,FIRECRAWL_API_KEY
