@@ -1,0 +1,554 @@
+[
+  {
+    "activityId": "7427834396742774784",
+    "text": "Common wisdom says agents are great at simple loops but terrible at complex workflows. \n\nBecause context tend to grow linearly in workflow, agents tend to forget later steps as context builds up, can't reliably respect dependency graphs, and either block on sequential execution or blindly charge ahead without waiting for upstream results\nI used to believe this too. Not anymore.\n\nWith the recent introduction of Tasks in Claude Code and all the built-in harness, last weekend I just built a 12-step company enrichment agent using /agent . It handles fan-in, fan-out, parallel execution, and dependency management and all are defined in natural language. What used to require carefully orchestrated workflow code now lives in an agent prompt file.\n\nHere's what I've learned about making complex Claude Code agents reliable:\n\n1. Agent.md with indexed step files:  Vercel's recent comparison of Skills vs. Agent.md showed that using an agent prompt file with indexed links to detailed step descriptions reduces context bloat at startup while achieving 100% pass rate compared to 53% with default Skills usage.\n\n2. Explicit task list generation : Ask the model to build a task list upfront. This triggers it to pre-define the dependency graph before execution, allowing parallel work while respecting step dependencies. Critical for any workflow with branching logic.\n\n3. Script-based intermediate outputs: Instead of asking the model to digest tool output inline, have it write simple scripts that export MCP tool results to tmp/ files. This prevents context bloat from large tool outputs, lets the model revisit data at any point, and provides persistent results for recovery when tools or the model fail. \n\n4. Structured output with hook validation: Pre-define expected output schemas for each step. Use hooks to validate output files — if the model misses anything, the hook raises an error and forces a revisit.\n\nHere's the bigger implication I keep thinking about:\nFor a long time, workflows and agents were two distinct architectures with different strengths. But with this pattern of \"workflow of agents\", a more unified paradigm is emerging. And workflow typically requires a lot of code.\n\nWhat used to be:  idea → English → (llm generated) code → results \nNow becomes: idea → English → LLM + harness → results\n\nTo be clear , I'm not talking about \"vibe coding\" where LLMs write your dashboard or workflow code. I'm talking about **LLM agents as the output generators**. The compute is coming from the model, not your CPU.\n\nWith minimum involvement of code. What used to require  Domain Expert + Technical Engineer  to build a product playbook can now be  Domain Expert + Claude Code. And these agents can be served through email, SMS, Slack, or Discord.\n\nThe real differentiator really comes down to how well you can encode your expertise, your judgment, your process into a Claude Code agent with the right Skills, MCPs, and context and build a feedback loop to continuously improve it.",
+    "reactionsCount": 8,
+    "commentsCount": 0,
+    "activityDate": "2026-02-12T22:02:02.673Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7427834396742774784",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_common-wisdom-says-agents-are-great-at-simple-activity-7427834396742774784-b8HO?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7425242253486600192",
+    "text": "Email might be the most underrated front-end for AI agents.\n\nEarly ai needs continuous feedback and guidance. so real time conversation become an effective process. Chat bot become perfect interface.\nAnd that naturally extends to platforms like WhatsApp, Slack, and Discord for multi-players.\n\nBut as agents start taking on longer time-horizon tasks, and each with multiple agents, the management of real-time chat becomes challenging.\n\nHere’s why email works surprisingly well:\n\n1. Parallel by default\nChat apps blur boundaries.\nEmail threads create clear scopes and make parallel work natural.\n\n2. Task-based sharing\nManaging participants in Slack or WhatsApp is painful.\nEmail makes it trivial: add, remove, CC—done.\n\n3.  Rich rendering\nLong AI outputs turn into walls of text in chat apps.\nEmail clients handle rich formatting beautifully. \n\n4. Organization scales\nSlack and Discord get chaotic fast.\nEmail has decades of innovation in threading, tagging, and search.\n\nBeside this agent facing benefit. email also provides: \n\n5. Reach: \n~6B people have at least one email address.\nWhatsApp ~3B. Telegram ~1B.\nMore than half of the world already has email.\n\n6. Low platform risk:\nEmail is an open standard.\nMuch lower risk than corporate-owned chat platforms.\n\nAs agents multiply, organization beats immediacy.\nEmail wasn’t built for real-time chat.\nIt was built for asynchronous work at scale.\nAnd that might be exactly what AI agents need.",
+    "reactionsCount": 5,
+    "commentsCount": 0,
+    "activityDate": "2026-02-05T18:21:47.561Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7425242253486600192",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_email-might-be-the-most-underrated-front-end-activity-7425242253486600192-RHGL?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7424495855371743232",
+    "text": "how I create and use /agent in Claude Code. \n\nI typically take 4 steps: \n1) register , 2)develop, 3) update 4) test\n\n1. Register: register agent by typing /agent -> almost always project -> almost always all tools -> generated by Claude -> briefly describe the scope -> create \n\nOne of the caveat I found(in current Claude Code v. 2.1.29 )  is if you use /agent and generate your agent prompt using claude, it does not seem to fully explore your context in repo and tools you have and tend to be hallucinating. \n\nso unless its something super simple, I typically do develop next.  \n\n2. Develop : /clear to clear context(so you have room). then manually breakdown the tasks and let CC complete in normal mode. like if I want to create a heyreach-review agent. I will exit /agent. and tell it to start by getting heyreach messages, then save them to @linkedin/conversations , then ask  it to review for me, tell me what I did right and what I did wrong. Sometime I also just give it a goal and let it grind.  but b/c now the main agent has full visibility of your context and can easily plan with you and see where it breaks or get confused, its much easier to craft the right *trace* of actions. and we can use this trace to \"update\" your agent. \n\n3. Update: Once you have the action trace, ask Claude Code to summarize what we did and update agent description in @.claude/agents/hey-reach-review.md  in step-by-step manner \n\n4. Test: /clear again(important so you can remove your previous trace dependency) . and ask CC to finish the {task} using {agent} . and see how it goes. \n\nAn optional but useful practice I found is using /skill as much as possible in your agent. Overall I treat agent for job-to-be-done(main script), and skill for capability(library of function)\n\nUsing skills in agent brings 1) modularity and 2) tight test loop. Like I have a meeting summary agent. and this agent contains summary skill and report skill, along with some update tools.  Say if I want to optimize my summary results, I don't need to go e2e for the whole agent but can just focus on summary skill. Much faster feedback loop and all agents depend on it gets\n updated.  \n\nDisclaimer: I am expecting some dramatic change for step.2 in terms of how to prompt agent to develop agent. for now, this type of workflow instruction is still helpful. but I also see people start to migrating into \"goal defining\" prompt rather than \"instruction defining\" to fully leverage model's knowledge and intelligence.",
+    "reactionsCount": 15,
+    "commentsCount": 1,
+    "activityDate": "2026-02-03T16:55:52.383Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7424495855371743232",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_how-i-create-and-use-agent-in-claude-code-activity-7424495855371743232-QPlO?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7422304664215429122",
+    "text": "I hope the next Apple release is not a cheaper MacBook, but a virtual Mac mini that anyone can one-click rent and boot up, with a seamless UI to connect instead of some manual ssh",
+    "reactionsCount": 6,
+    "commentsCount": 1,
+    "activityDate": "2026-01-28T15:48:51.701Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7422304664215429122",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_i-hope-the-next-apple-release-is-not-a-cheaper-activity-7422304664215429122-IwZR?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7422062354714116096",
+    "text": "𝗠𝘆 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱𝗶𝗻𝗴 𝗼𝗳 /𝗰𝗼𝗺𝗺𝗮𝗻𝗱, /𝗮𝗴𝗲𝗻𝘁, /𝘀𝗸𝗶𝗹𝗹, 𝗮𝗻𝗱 /𝗺𝗰𝗽 𝗶𝗻 𝗖𝗹𝗮𝘂𝗱𝗲 𝗖𝗼𝗱𝗲 𝘁𝗵𝗮𝘁 𝗵𝗲𝗹𝗽𝗲𝗱 𝗺𝗲 𝗯𝘂𝗶𝗹𝗱 𝗮𝗴𝗲𝗻𝘁𝘀 𝗹𝗶𝗸𝗲 𝗿𝗲𝗮𝗹 𝘀𝗼𝗳𝘁𝘄𝗮𝗿𝗲\n\nI get asked quite a bit about the differences between /command, /skill, /mcp, and /agent, and when to use each one.\n\nFirst to me the hierarchy is \n🔹 /command calls → /agent\n🔹 /agent calls → /skill\n🔹 /skill contains → prompts, MCPs, scripts\n🔹 /mcp communicates → external services\n\nyou use command for its deterministic property instead of relying on model to trigger. you call agent to complete a task, and the task may require several skills. and the skill may or may not need to communicate to external services through MCPs. \n\nHere is an example: I have a /daily-activity-report agent. this agent has two skills , /product-analysis skill and  /report-generator skill. The first one focuses on framework of how we want to do analysis for user behavior with access to our Posthog and Neon through MCP. the other one is just simple report formatter and some guideline of how to make report we like. and finally the agent would use gmail mcp to send reports to stakeholders. \n\nThis type of modulation makes my CC function more like a software with clear dependency instead of bunch of prompt files. whenever I optimize one skill, all agents using it get updated. \n\nI think it's also getting clear now MCP should focus on communication/auth for external services (so your agent don't have access to your raw credentials), and anything you don't want model to modify. In contrast, things like create pdf should just be skills. \n\nFor local usage, I wrap this agent into a command so it's easy to trigger. \nBut overtime I also found annoying that I have to remember to call it. so we start to deploy Claude Code agents on our own service so it can be triggered daily at 8am before I ask. By giving each of them a webhook also allows them to be easily triggered from external event(like a meeting transcript or a new sign-up). It streamlines our context update and gives a central place to manage all of the deployed agents. \n\nBy (carefully) adding agents one by one, I can focus on the highest leverage while still keeping a good grip on everything that’s happening. it's quite liberating.",
+    "reactionsCount": 14,
+    "commentsCount": 2,
+    "activityDate": "2026-01-27T23:46:00.614Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7422062354714116096",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_%F0%9D%97%A0%F0%9D%98%86-%F0%9D%98%82%F0%9D%97%BB%F0%9D%97%B1%F0%9D%97%B2%F0%9D%97%BF%F0%9D%98%80%F0%9D%98%81%F0%9D%97%AE%F0%9D%97%BB%F0%9D%97%B1%F0%9D%97%B6%F0%9D%97%BB%F0%9D%97%B4-%F0%9D%97%BC%F0%9D%97%B3-%F0%9D%97%B0%F0%9D%97%BC%F0%9D%97%BA%F0%9D%97%BA%F0%9D%97%AE%F0%9D%97%BB%F0%9D%97%B1-activity-7422062354714116096-fL5g?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7418888882638749696",
+    "text": "I think for Claude Code, tools are the ultimate guardrail.\n\nThe more I delegate tasks to AI, the more I feel the need for MCP or something similar that I can easily control at the tool level instead of the credential level. Most of the time it’s much easier to align a task to a tool than to a scope. Not to mention, many API providers don’t even offer fine-grained credential scopes.\n\nAnother thing I’ve found tools super useful for is their immutability. There have been so many times I’ve asked an agent to run a script to finish a job, and if for some random reason the script failed, instead of stopping and asking, the model just went ahead and modified the script. Sure, it may solve that one-time task, but it often causes more issues for the rest of the workflow.​​​​​​​​​​​​​​​​\n\nIn the context of Claude Code, tool immutability is the final guardrail that matters. Even hooks can be modified if you’re using shell scripts to implement them.",
+    "reactionsCount": 14,
+    "commentsCount": 0,
+    "activityDate": "2026-01-19T05:35:45.911Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7418888882638749696",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_i-think-for-claude-code-tools-are-the-ultimate-activity-7418888882638749696-vD5z?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7415093963163873280",
+    "text": "It’s getting clear that Claude Code is not just another coding assistant, but an agentic OS layer on top of my personal computer \n\n*Coding Agent vs Personal OS*\nWhen treating Claude Code as a coding agent, it’s the assistant serving the software I am creating. But when I use Claude Code as my personal OS, the agent becomes the first-class citizen. My docs and my software are now serving my Claude Code agent to help it finish tasks easily.\n\nA few tips I’ve found useful when building CC as my OS:\n\n1. Give it a clean file structure:\nI treat file structure as my context scaffolding. I typically co-iterate it along with CLAUDE.md. A good file structure improves agentic search and results in better context.\n\n2. Give it (many) granular, modular tools:\nI’ve found that small tools empower the agent to easily mix and match through prompting, instead of modifying a huge end-to-end workflow. I use our MCP gateway to integrate MCP tools and wrap them into python script as code for scale and efficient token usage. (I prefer this over giving agent my api credentials and rewrite each integrations)\n\n3. Give it a memory hook:\nI treat this as a bridge between sessions. I use bead at the moment.\n\n4. Pair it with a database:\nWhile .md files are handy, I’ve found them hard to scale. no indexing, no easy querying, and no built-in ACID to avoid racing when running multiple agents. Neon is my go-to.\n\n5. Build determinism through a harness\nFor example, I typically use commands to trigger agents or skills instead of relying on model to guess. This brings certainty. The same applies to hooks.\n\nA few observations:\n\nObs1: I Want More Tools, Not Less\nI only use the Context7 MCP when using Claude Code as a coding agent, but I find myself using a lot of MCPs when I use Claude Code as a personal OS. I want almost everything I’ve used to be available to CC (Gmail, Calendar, PostHog, Neon, Firefly, etc.). These tools are like nodes, and CC is the tissue that interconnects them. not just context compounding, tool compounding too (literally n(n-1)).\n\nObs2: SaaS is here to stay but likely different\nI have no interest in “vibe-coding” another SaaS. If anything, using CC as a personal OS makes me want to buy more software. I’d rather use Gamma for PPT than tune a crappy PPT skill that can’t even align fonts properly. That said, the product needs to be API-first (I don’t use Granola for this reason). I also feel a new type of software emerging for CC. For example, I now use bead over Linear for task tracking.\n\nI feel a lot of resemblance between Notion and CC. Tons of flexibility and capability, but very hard to know how and when to use them. Plugins help, but most plugins today are still mainly focusing on coding. I hope more templates show up for PM, GTM, and Operations to further democratize these capabilities. like good old William Gibson quote: “The future is already here—it’s just not evenly distributed.”",
+    "reactionsCount": 22,
+    "commentsCount": 5,
+    "activityDate": "2026-01-08T18:16:06.602Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7415093963163873280",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_its-getting-clear-thatclaude-code-is-not-activity-7415093963163873280--pUc?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7404953175520124928",
+    "text": "One thing I've always wanted is to use my MCP not just as a tool for AI agents, but as a function that can be directly called in code.\n\nWhy? \n\nYesterday, while preparing my outreach, I used my LinkedIn MCP to pull posts, but Claude Code soon complained that the tool returned too many tokens(50 posts) \n\nThe problem:\n- ❌ Token limits blocked my workflow\n- ❌ Couldn't process large amounts of data through AI tools\n- ❌ Had to rewrite seperate integrations\n\nWhat if we could use MCP as code instead?\n\nWith MCP as code, I could:\n- ✅ Save posts locally to offload context\n- ✅ Write scripts to clean and process the output\n- ✅ Let Claude Code read through saved files at its own pace\n- ✅ No need to rewrite another seperate integrations\n\nThe solution:\n\nSo we built a thin SDK on top of Datagen, an MCP Gateway.\nHere's how it works: \n1️⃣ Add as many MCPs as you want on Datagen \n2️⃣ Datagen MCP has searchTools/getToolDetails tools to guide Claude Code on what tools are available and how to use it\n3️⃣ Claude Code can use any tools in code through SDK\nExample:\nfrom datagen_sdk import DatagenClient \nclient = DatagenClient() \n# call MCP as function \nposts = client.execute_tool( \n\"get_linkedin_person_posts\", {\"linkedin_url\": lead.linkedin_url}, ) \n# save to local\nwith open(\"./linkedin_posts.json\", \"w\", encoding=\"utf-8\") as f: json.dump(posts, f, indent=2)\n\nBenefits: \n1. ✅ Super easy integration:\nOne client, one credential, like your 1Password. No more copying and pasting API keys or rewriting auth flows/integrations for each project. \n\n2. ✅ Embedded Tool documentation:\nAll tool details can be accessed through the getToolDetails tool. No need to feed documentation here and there. Much faster development and less hallucination.\n\n3. ✅ Safer to use in Claude Code: \nUnlike having your credentials in environment variables where your AI agent could potentially write any API to use them, with Datagen, Claude Code can only access the tools you give it and cannot access the raw credentials. \n\n4. ✅ Run anywhere:\nUnlike \"Code Mode\", the script you have can run at any Python runtime. Can easily integrate with your local files/runtime without spinning up another remote container.\n\nyou can find more from our repo: \nhttps://lnkd.in/gzJy7dbX",
+    "reactionsCount": 7,
+    "commentsCount": 0,
+    "activityDate": "2025-12-11T18:40:14.421Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7404953175520124928",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_github-datagendevdatagen-python-sdk-python-activity-7404953175520124928-Q7a4?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7404589695885783041",
+    "text": "Using Claude Code(CC) + MCP Gateway has probably been my biggest productivity gain recently.\n\nWe recently deployed a Claude agent to boost our user email → LinkedIn profile enrichment rate from ~40% to nearly 80%. \n\nHere's what we did:\nWe first asked CC to create a subagent with the following logic:\n\" \n1. Use mcp_linkedin_search_person tool to get LinkedIn URL from email. \nIf not found:\n2. use our mcp_Posthog_query tool to get user city from IP\n3. Include this with email and come up with the best possible query\n4. Use mcp_Linkup_search to search for LinkedIn\n5. Use mcp_Exa_search if no good results are found\n6. Use mcp_Linkedin_profile to validate the LinkedIn URL found\n7. If found, update our user_crm table in Neon with mcp_Neon_use_sql\"\nWe then tested and asked CC to optimize the prompt and deploy to Railway as a webhook that can be triggered whenever we have a new signup.\n\nI used 5 different MCPs (LinkedIn, PostHog, Linkup, Exa, Neon) without needing to manage any MCPs individually to avoid context bloat, thanks to using MCP gateway.  I can also easily add or remove servers just through prompts without touching any code or MCP configurations. Way faster iterations.\n\nI see three major benefits of using gateway for agent:\n\n1. Allows MCPs to compound: \nThe more MCPs I have, the more contexts are ready to be reached by my agent. Using MCP gateway makes it just a prompt away without context bloat.\n\n2. Much faster agent DevOp: \nWe use Claude Agent SDK, basically a deployable Claude Code. Using tools through MCP means I can directly test and optimize in Claude Code's subagent (same context, same tools) instead of running in another dedicated test environment to load my custom tools. During deployment, instead of configuring 5 different MCP auth/configs, I just need one. Life saver. \n\nIt also further allows me to template my agent to only take prompt and model as input. Internally we start to experiment if we can further simplify the whole process to deploy my CC subagent to cloud through a single toml file + cli tool. \n\n3. Unified retry/rate-limit/error handling middleware: iykyk \n\nBesides agent development, using gateway also allows me to easily switch between coding agents without worrying about syncing their MCP configs. Having all the MCPs available at the same time also allows for much better synergy to serve my everyday needs. Highly recommend.",
+    "reactionsCount": 11,
+    "commentsCount": 15,
+    "activityDate": "2025-12-10T18:35:54.123Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7404589695885783041",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_using-claude-codecc-mcp-gateway-has-probably-activity-7404589695885783041-srBK?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7391220432336543744",
+    "text": "How to Know if My LinkedIn Post Works\n\nYesterday, I was thinking about whether I could better understand if my posts actually bring in any visits and what content attracts people. (In the end, my posts are solely for that purpose. I have no interest in sharing my thoughts with others. I mean, who cares?)\n\nWe have PostHog, but to be honest, I have no idea how to use PostHog properly, let alone knowing how to build queries, join it with LinkedIn, and get insights.\n\nBut luckily, PostHog has MCP, and I have a LinkedIn MCP installed . So here's what I did:\n1) Install PostHog MCP to Datagen.\n2) Ask Claude how to use the PostHog MCP tool to get my page views data and analytics.\n3) Ask it to check my LinkedIn tool and come up with a way to analyze my post-to-page relationships.\n\nAnd man, I just got a table that clearly shows me how each post brings in page views. 5 minutes. For a complete newbie like me who has struggled to figure out how to do queries through the PostHog UI. I get good. analysis in attached pic(embarrassing traffic I know). \n\nWith Datagen, I can:\n1) Continue to add MCPs without worrying about bloating context and easily get the tools I need through Datagen's tool search.\n\n2) Use not just \"tool mode\" but \"code mode\" in Datagen to let it build the code to join potshog mcp tool output and linkedin tool output data before returning back to LLM.  Fast and scalable even you have hundreds of posts.\n \n3) Deploy this post-to-view analysis as a custom tool, so next time I can just call it and get results. or my AI agent can either use this tool to suggest content improvements or do intent analysis.\n\nI am kind of surprising how good AI is now, and by providing the right tools, how quickly you can turn any random ideas into real actions in minutes. Wild.",
+    "reactionsCount": 9,
+    "commentsCount": 1,
+    "activityDate": "2025-11-03T21:11:13.304Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7391220432336543744",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_how-to-know-if-my-linkedin-post-works-yesterday-activity-7391220432336543744-suhJ?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7390115478624460800",
+    "text": "Use Claygent + MCP in Clay to detect if a website uses certain vendor\n\nTL;DR, inspired by Shane Firek's post, I created a Claygent + Datagen MCP to just take in 1) company website URL, and 2) vendor you want to detect, then it would tell you if it found any evidence from their website using the vendor's tech in real time.  video is a quick how-to\n\nI simply gave it two tools. One is a web research tool to gather information for front-end patterns and paths, the other is a custom web probe tool that returns whether any patterns are matched. \n\nWith these simple two tools, Claygent can go on to check any website, with any tech without  predefined pattern library and paths to look for. And the web_probe tool gives the LLM clean and deterministic pattern-matched results instead of whole rendered htmls.\n\nWhile this is a simple use case, I can already see how it can be used in my other workflows:  pull my user's most recent usage query from Supabase, find the most relevant use case I saved in Notion, and generate a personalized outreach email. all w/o me setting up 100 columns. simply describing it. And honestly, I argue many would out-perform ai workflow if you setup the tool right if and give it more compute. \n\nIt actually leads me to my final question: how do you design your AI workload so that it can scale with compute? \n\nMost AI workflows plateau when you give them more compute. If you predefine your query keywords, then define how many pages it can fetch, your AI is just a summarization machine. \n\nBut if you define the goal, let it decide the query > check results> requery > and find the best content, then the more compute you give it, the better results you get. I think that is the part we need to be trained on, not whether you use n8n or Clay or any fancy builder but really down to design the problem worth tackling, the prompt to spec AI, and the tools to act and validate its work.",
+    "reactionsCount": 12,
+    "commentsCount": 1,
+    "activityDate": "2025-10-31T20:00:31.810Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7390115478624460800",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_use-claygent-mcp-in-clay-to-detect-if-a-activity-7390115478624460800-3BM9?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7388646693539336194",
+    "text": "How to build AI workloads that can scale with LLMs\n\nIn Lance's \"Learning the Bitter Lesson,\" he pointed out that during his open deep research project, he needed to constantly rip apart and rebuild his AI structure. And one thing he concluded: \"Make it easy to remove structure.\" \n\nBut how? \n\nClaude's recent video, \"Building More Effective Agents\" (an echo to their well-known \"Building Effective Agents\"), suggested a point that really resonated with me: migrate from an AI workflow to a workflow of agents (with a narrow scope). \nI believe it's a path forward. Instead of a rigid, predefined graph, each agent has the same structure, just with different prompts and tools. \n\nWe all know AI agents go rogue and are slow even for simple steps. People opt into AI workflows often not because of their capability, but because of the guardrails and efficiency.  \n\nI think \"Tools\" will start to fill in this gap, and proper tool design can make or break your AI agent. \n\nI want to share an example: a simple \"Linear ticket creation\" agent. For this agent, we only ask it to do one thing: take task description, create a ticket with proper title, description, assignee, team, project, label, and status. \n\nWhat we did before: \nwe used official Linear MCP tools and prompted it to call 1) get_projects, 2) get_teams, 3) get_users, 4) get_issue_labels, 5) get_status_by_teams (yes, 5 different tool calls) to get the right context. But still, because Linear's create_ticket tool only requires \"title\" and \"team_id,\" we often saw our tickets missing things here and there. \n\nThis simple example manifests two problems with my AI agent: 1) poor efficiency with 5 different tool calls, and 2) no validation. \nResult: loss of trust. \n\nWhat we do now: \nwe createds two custom tools that \n1) pulls all title, description, assignee, team, project, label, and status in one call, no back and forth → fast and reliable\nand \n2) wraps the original Linear create_ticket to require not just title and team_id, but all of those fields above, reports a validation error if missing → guardrail. \nUnlike an AI workflow that just reports errors, AI agent can react based on failed attempts and know what needs to be done.  \n\nResults: full delegation. No stupid errors, no missing pieces. \n\nFurther wrapping these two tools into MCP, I can bring them anywhere: Codex, Gemini, Claude code, or even my Discord bot. There's no embedded structured code in my AI agent. Just simple prompt, tool, and  LLM calls. If I want to modify behavior, I simply change my prompts and tools. \n\nJust like we tailor prompts to different agents, we need to tailor tools for useful AI agents. if we need prompt library. we need tool library too. \n\nDon't just craft prompts, craft tools, too.\n\n=================\nAnd if you want to accelerate your custom MCP tool creation process, give us a try. \nWe aim to make build and deploy custom tools super easy. (Yes, of course, I am writing to promote.)",
+    "reactionsCount": 8,
+    "commentsCount": 0,
+    "activityDate": "2025-10-27T18:44:06.157Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7388646693539336194",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_how-to-build-ai-workloads-that-can-scale-activity-7388646693539336194-BrJs?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7384323502444568576",
+    "text": "[MCP tools are not all you need]\n\nWe’re increasingly seeing the rise of custom tools in our workflow. Unlike most MCPs’ generic tools, the ability to quickly build and deploy purpose‑built tools on top of native MCP tools gives our agents a huge performance boost. \n\nWe recently started documenting ~40 use cases about Datagen in Notion. We wanted a Claude Code sub‑agent that, given a person’s background, can surface the best use cases to showcase. The key is staying grounded in real use cases, so identifying and referencing the most relevant ones is critical. \n\nBut here’s the challenge: how do we identify the most relevant use case? \n\nWe began with Notion MCP’s search and fetch tools. But quickly hit a context wall. Notion’s search only returns a title, URL and short AI summary. The only way for the agent to know whether a use case is relevant is to fetch the full page. After just a few fetches, context bloated and the agent started to hallucinate due to too much irrelevant information. \n\nThe solution: \nWe build and deploy a summarizer tool on top of Notion’s fetch tool. It takes a user’s background description and a Notion URL as input, and returns two sentences explaining if that use case is relevant. \n\nNow, instead of fetching the full page for every result, the agent calls the summarizer after search and only fetches full content when it deems it relevant.  \n\nThe result: \nWe saw a ~40% drop in context usage and more grounded results. \nAnd because it’s just a tool in Datagen’s MCP, not a hard‑coded workflow or “another sub‑agent”, we can easily bring our toolset to other agents like Codex and Gemini(especially when your weekly limit hit).\n\nWith tools being easy to build and deploy in Datagen, we quickly grew a custom tool library, for example, “Search ICP docs in Notion” with a predefined data_source_url filter to prevent access to other sensitive data, or “enrich user email with LinkedIn link” with built‑in link validation. \n\nThese dedicated tools also let us assign fewer tools (ideally < 5) to each agent with a specific scope. That significantly improves tool calling and the final outcome. \n\nWith agent getting more powerful, we believe many complicated workflows should be abstracted into tool to keep agent architect simple, future-proof while still have ability to execute with proper guardrail.",
+    "reactionsCount": 7,
+    "commentsCount": 0,
+    "activityDate": "2025-10-15T20:25:17.079Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7384323502444568576",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_mcp-tools-are-not-all-you-need-were-increasingly-activity-7384323502444568576-D_ZK?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7381902872965419008",
+    "text": "[Datagen Demo] Use Datagen to automatically send LinkedIn experts' latest posts to our Slack channel\n\nThis one’s a really simple automation, but nice to have.\nWe have a small(but growing) list of MCP voices we want to track. Every day, we pull their latest LinkedIn posts and send the summaries to a Slack channel so the team can stay in the loop without checking manually.\n\nUnlike most automation platforms, Datagen doesn’t have built-in app integrations(we are working on it).\n\nInstead, anyone can add any MCP they want. Once added, the integration is available to you without you need to worry about authentication and documentation to know how to use it. It's all written in MCP. \n\nWe simply ask Claude to add google Sheet MCP and Slack MCP to Datagen(I use Klavis AI (YC X25)'s MCP here) with the respective server url \n\nThen ask Claude to: \n1️⃣ Find our my Google Sheet (ID: <google_sheet_id>)\n2️⃣ Check if there’s a new post\n3️⃣ Push the summary to Slack (<slack_channel_id>)\n4️⃣ Update the sheet so it won’t send duplicates\n5️⃣ Deploy and Schedule it to run daily at noon\n\nBehind the scenes, DG + Claude take care of:\n* MCP authentication\n* Integrating MCPs into code\n* Code to chain up these services and find out latest posts\n* Deployment + scheduling\n\nUnlike n8n or Zapier (which are limited to curated integrations), Datagen connects directly with any MCP. This unlocks access to a rapidly growing ecosystem that most automation platforms don't support — like DeepWiki for GitHub repo understanding or Browserbase for scalable browser automation.\n\nOne thing worth emphasizing:\nDatagen uses LLMs to write code that incorporates MCPs — not to run them.\nSo automations are deterministic, fast, and cheap (similar to Cloudflare’s recent “code mode”).\n\nA small learning from this automation:\nHandling user-defined data (like Google Sheets) can be tricky the first time because of unknown schemas. Agentic loops usually solve it, but we’re making that process more reliable.\n\nps. you can learn more from this automation by asking Claude to explain workflow : 1f74e803-93f1-46a8-8414-804ac3940a6c.( a public one) \nB/c it would provide complete context to Claude about this workflow, you can easily ask Claude to explain or modify it to whatever you want, like \"instead of sending post, please research some interesting perspective for this post and send to my slack\". ( after you add Datagen MCP)",
+    "reactionsCount": 6,
+    "commentsCount": 1,
+    "activityDate": "2025-10-09T04:06:34.038Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7381902872965419008",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_datagen-demo-use-datagen-to-automatically-activity-7381902872965419008-19ge?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7381383004797112321",
+    "text": "𝗦𝘁𝗼𝗽 𝗺𝗮𝗻𝘂𝗮𝗹𝗹𝘆 𝗰𝗹𝗶𝗰𝗸𝗶𝗻𝗴 𝘁𝗵𝗿𝗼𝘂𝗴𝗵 𝗟𝗶𝗻𝗸𝗲𝗱𝗜𝗻 𝗽𝗿𝗼𝗳𝗶𝗹𝗲𝘀. 𝘄𝗲 𝗷𝘂𝘀𝘁 𝘁𝘂𝗿𝗻𝗲𝗱 \"𝗳𝗶𝗻𝗱 𝗲𝘃𝗲𝗿𝘆𝗼𝗻𝗲 𝘄𝗵𝗼 𝗰𝗼𝗺𝗺𝗲𝗻𝘁𝗲𝗱 𝗼𝗻 𝗫'𝘀 𝗹𝗮𝘀𝘁 𝟮𝟬 𝗽𝗼𝘀𝘁𝘀\" 𝗶𝗻𝘁𝗼 𝗮 𝘄𝗼𝗿𝗸𝗶𝗻𝗴 𝗔𝗣𝗜 𝗶𝗻 𝟯 𝗺𝗶𝗻𝘂𝘁𝗲𝘀 𝗼𝗻 𝗖𝗹𝗮𝘂𝗱𝗲.\n\nIt's always tedious to find out like-minded on linkedIn. And most automation tools require me to understand how to use each API/tool to chain things up or carefully manage context \n-> classic \"spent 3 hrs to automate 1 hr work\"  scene\n\nInstead, Datagen's MCP lets you simply ask:\n\"Give me a working API that can find everyone who commented on [this person]'s last 20 posts. Give me their LinkedIn URLs, post they engaged\"\n3 minutes later, a working API from Datagen + Claude that handles:\n✓ tool search\n✓ API code\n✓ API deployment\n✓ docs to show you how to use the created API (this is underratedly useful)\n\nAnd because it's an API, I can use it (link in comments):\n→ in Clay (for bulk research)\n→ in Lovable (for quick visual and ad-hoc lookup)\n→ in Claude as an MCP tool (Datagen automatically wraps new API as an MCP tool)\n\nBuild once, use everywhere:\nNowadays with many good tools popping up every day, Datagen lets me easily bring my created APIs/MCP tools to any new workflow tool or AI agent without repeating myself.\n\nCool to build now. More to come on how to use external MCP tools in DG. \n\nps. you can use try this api out by \n1) add Datagen MCP to Claude \n2) copy \"how to use deployment 3bcf3a32-e4da-4f76-95e3-2c414e087cef in Datagen\" to Claude.",
+    "reactionsCount": 20,
+    "commentsCount": 2,
+    "activityDate": "2025-10-07T17:40:47.808Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7381383004797112321",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_%F0%9D%97%A6%F0%9D%98%81%F0%9D%97%BC%F0%9D%97%BD-%F0%9D%97%BA%F0%9D%97%AE%F0%9D%97%BB%F0%9D%98%82%F0%9D%97%AE%F0%9D%97%B9%F0%9D%97%B9%F0%9D%98%86-%F0%9D%97%B0%F0%9D%97%B9%F0%9D%97%B6%F0%9D%97%B0%F0%9D%97%B8%F0%9D%97%B6%F0%9D%97%BB%F0%9D%97%B4-activity-7381383004797112321-nX06?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7378884205545664513",
+    "text": "https://lnkd.in/gQi4HteF  \nI truly think  this MCP as code approach would be more main stream. \n\nInspired by Smolagent, we started to take this approach and cool to see now more sharing the similar idea.",
+    "reactionsCount": 4,
+    "commentsCount": 0,
+    "activityDate": "2025-09-30T20:11:27.641Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7378884205545664513",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_apis-vs-mcps-in-vibe-coding-whether-you-activity-7378884205545664513-Q_RD?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": true,
+    "relatedPost": {
+      "text": "APIs vs. MCPs in vibe coding\n\nWhether you’re vibe coding in Claude Code or Lovable, the No. 1 pain point is integrations with your favorite apps. Most folks aren’t trying to build the next billion-dollar SaaS; they just want to automate out boring stuffs. But today, AI coding struggles most exactly where integrations matter most. \n\nThis is where MCPs come into play. Most people know MCP as a tool for their AI agent in the chat, but b/c fundamentally its a form of APIs(json-RPC), they can actually be used like how your AI coding agent use API to integrate your Apps. \n\nBut with few extra edges: \n\n#1 Standardization: \nMCP standardizes tool descriptions and abstracts away differences among REST, GraphQL, gRPC, SOAP, etc. Think of it like how n8n nodes hide API quirks behind a consistent interface. With MCP, the LLM sees a uniform, well-described tool surface instead of a zoo of API styles.\n\n#2 Optimized for agents:\nMany MCP servers are designed for LLM exploration and multi-step flows (e.g., “search first, then run”), with concise, discoverable operations. Clear affordances reduce doc-hunting and make it easier for an LLM to chain calls without getting lost\n\n#3 Simple auth (for code agents, not for devs):\nWith proper adaptor, The LLM doesn’t have to guess whether it's OpenAI_API_key or open_ai_api_key, in .env or in config. Secrets also never leak into generated code. With OAuth, user can even skip the journey to haunt their next \"access token\".\n\n#4 Ecosystem\nEarly MCPs were mostly hobbyist projects. Now, more companies see MCPs as strategic assets in the agentic economy, with official MCPs offering polished design. All while OSS is still thriving\n\nthat being said, like all the techs, anything has trade-offs.\nCompared to APIs, MCPs are more resources hungry(need to spin up client-server connection) , less stable and less performing compared to raw APIs. \n\nIn many ways, MCP feels a lot like a Node in n8n.\nIt’s not about offering the absolute highest performance or flexibility like raw APIs. Instead, it’s about optimizing for usability while still delivering broad utility.\n\nThat makes MCP a perfect fit for scenarios like personal automations, where what matters most is being able to build something easily and quickly, rather than squeezing every ounce of scalability or performance. \n\n========================================================\nIf you want to see how MCP speed up automation building, Datagen turns your Claude app into a vibe-coding platform that can access your favorite apps via MCPs.\n\nWith three simple steps only: \n1) Install the Datagen MCP in Claude.\n2) Find your App's MCP and ask Claude to install them on Datagen \n3) Ask Claude to build an automation  \n\nWe’re looking for early beta testers.  if you still get bugged by all the boring stuffs and have no time for n8n, feel free to dm me for free credits to try.",
+      "activityDate": "2025-09-05T19:35:13.455Z",
+      "author": {
+        "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+        "authorName": "Yu-Sheng Kuo",
+        "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+        "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+        "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+      },
+      "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7369815389708541952",
+      "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_apis-vs-mcps-in-vibe-coding-whether-you-activity-7369815389708541952-AlQb?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo"
+    }
+  },
+  {
+    "activityId": "7378662123775655936",
+    "text": "I think \"tools\" are going to be the moat for AI agents, not scaffolded AI workflows\n\nImage below is from Voyager AI paper, a well-known work let AI agent explores Minecraft. \n\nIt shows by letting AI agent build and use their own \"skill library\" significantly enhancing its capabilities (orange vs blue line)\n\nThis matches my experience. And surprisingly align well with what we want to do.\n\nMost MCP tools today are like LEGO bricks. Even for the same task, the agent has to re-chain the bricks each time. These tools are generic and lack context for \"my\" use case. However, what I want is a tool library with context-aware modules built on top of those LEGO bricks that fit my needs.\n\nI think to allow AI agent build and use this \"tool library\" takes: \n1. Memory:  to know what you need\n2. Search:  to get right tool \n3. Sandbox:  to assemble existing tool into custom tools\n4. Deployment:  to publish and version tools \n5. Observation:  to fix issues\n6. Governance: to auth and assign right tools\n\nThis is what we’re building at Datagen: a tool-building platform for AI agents. And by offering it as an MCP, anyone can bring their tool library to any agent platform they want. \n\nIn our view, this portability guarantees the independence of what we build from the LLM providers.\n\nWhat it means for use cases: \n- Short term: people can easily build individual automations and APIs, and they can use them in tools like Clay or n8n -- Build custom tools\n\n- Mid term: let people plug in their specialized tool sets they built into agents to complete tasks faster and more reliable. -- Use customs tools \n\n- Long term: AI can take a task and let the agent use Datagen to build and deploy the required tools end to end, even if those tools don’t exist yet \n\nWe still have plenty to build and improve, but it’s been a lot of fun building this with my teammates.",
+    "reactionsCount": 12,
+    "commentsCount": 3,
+    "activityDate": "2025-09-30T05:28:59.221Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7378662123775655936",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_i-think-tools-are-going-to-be-the-moat-activity-7378662123775655936-N-LI?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7377469443175792640",
+    "text": "Recently, we're consolidating our AI tools to be more functional-focused instead of loading them with many irrelevant MCP tools and hoping they pick the right path every time.\n\nTake a simple creating a CRM contact as example.\nThis is the typical flow for AI to complete it:\nGiven email, name, company, and company domain:\n1) Search contact by email → hubspot-search-objects tool with email filter → get contact_id or null\n2) Create contact if not found → hubspot-batch-create-objects tool with email, first_name, last_name, phone → get contact_id\n3) Search company by domain → hubspot-search-objects tool with domain filter → get company_id or null\n4) Create company if not found → hubspot-batch-create-objects tool with company_name, domain → get company_id\n5) Associate contact + company → hubspot-batch-create-associations tool with contact_id and company_id → confirm association\nReturn → final contact_id, company_id, association_status\n\nInstead of letting an AI agent directly call MCP tools to do all of the above every time, we let Claud to use Datagen to build and deploy a focused \"create-contact\" tool by chaining these MCP tools in code. \nIt's faster, cheaper, and more reliable. Now rather than exposing a generic MCP toolset, we expose a series of highly focused functional tools in Datagen MCP that we can easily plug and play in any agent framework or ai agent app. \n\nAnd because Datagen's tool also comes with a server-less API deployment, we can use this \"create-contact\" API in Clay, n8n, or even Lovable.\n\nBy the way, wrapping these API calls not only makes our workflows more modular; it also means that if Clay ever decides to charge credits for API calls, compressing five API calls into one would simply reduce the cost by about 5×.\n\nAs usual, if you are interested in how we use Claude to build this create-contact API, check the comments.",
+    "reactionsCount": 9,
+    "commentsCount": 6,
+    "activityDate": "2025-09-26T22:29:42.007Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7377469443175792640",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_recently-were-consolidating-our-ai-tools-activity-7377469443175792640-nj05?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7373489820448260096",
+    "text": "# Why We Built a Compute Layer Between Your LLM and MCPs\n\nMCPs make observability so easy. Connect to HeyReach, get reply rates. Connect to Supabase, get usage stats. The demos look great.\n\n## Issues with MCPs\nBut here's where it gets flimsy : What if I want to see which campaign actually brings the most active users?\n\nNow I need data from both MCPs. MCPs don't talk to each other. So Claude ends up copying data between MCP calls, \n\nTypical Claude + MCPs:\n- Call HeyReach MCP → Claude holds campaign data in context\n- Call Neon MCP → Claude holds user data in context\n- Claude tries to analyze with hardcoded data in prompts\n- Context gets bloated, hallucinations creep in\nThis is where I see many give up and go back to traditional analytical tools.\n\nSure, you can build pipelines ahead of time and bring all data into one warehouse. But if you are an early team like us still experimenting with tooling, building data pipelines for every data source feels like massive overhead. In the end, we just want answers.\n\nThis is where we started dogfooding ourselves.\n\n## The compute layer between LLM and MCPs\n\nInstead of the LLM copying data between MCPs, Datagen is a compute layer between your LLM and MCPs. And instead of asking LLM to directly call  MCP, Datagen ask LLM to create code to \"orchestrate MCPs\"\n\nNow when I ask \"which campaign brought the most signups,\" Datagen:\n1. Writes code to a) fetch data, b) join, dedupe, and calculate conversion rates\n2. Returns clean results: \"Campaign X: 124 messages, 4 signups, 3.2% conversion\"\n\nAnd because it's code, it's fast, reliable, and most importantly, auditable. \n\nWhat makes Datagen even more powfeful is it can automatically deploy our analysis as:\n- An API endpoint (for dashboards or Clay like  integrations)\n- New MCP tools (so I don't wait 10 minutes in Claude for the same question with just different campaigns in the future)\n- Cron jobs (if I want this data synced nightly)\n\nFrom adding MCPs to deployed workflow. all just by talking to Claude.\n(Claude artifact link in comment)\n\n## Building What We Use\n\nWe dogfood this almost daily. Every \"I wonder if...\" becomes a workflow in minutes. (we recently build a discord tool so AI can quickly turn our long discussions into a list of todos and can be sent to Linear with our Linear workflow)\n\nIt's nice building for others. But even nicer building something you depend on every day.",
+    "reactionsCount": 12,
+    "commentsCount": 3,
+    "activityDate": "2025-09-15T22:56:06.011Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7373489820448260096",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_why-we-built-a-compute-layer-between-your-activity-7373489820448260096-YyHk?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7369815389708541952",
+    "text": "APIs vs. MCPs in vibe coding\n\nWhether you’re vibe coding in Claude Code or Lovable, the No. 1 pain point is integrations with your favorite apps. Most folks aren’t trying to build the next billion-dollar SaaS; they just want to automate out boring stuffs. But today, AI coding struggles most exactly where integrations matter most. \n\nThis is where MCPs come into play. Most people know MCP as a tool for their AI agent in the chat, but b/c fundamentally its a form of APIs(json-RPC), they can actually be used like how your AI coding agent use API to integrate your Apps. \n\nBut with few extra edges: \n\n#1 Standardization: \nMCP standardizes tool descriptions and abstracts away differences among REST, GraphQL, gRPC, SOAP, etc. Think of it like how n8n nodes hide API quirks behind a consistent interface. With MCP, the LLM sees a uniform, well-described tool surface instead of a zoo of API styles.\n\n#2 Optimized for agents:\nMany MCP servers are designed for LLM exploration and multi-step flows (e.g., “search first, then run”), with concise, discoverable operations. Clear affordances reduce doc-hunting and make it easier for an LLM to chain calls without getting lost\n\n#3 Simple auth (for code agents, not for devs):\nWith proper adaptor, The LLM doesn’t have to guess whether it's OpenAI_API_key or open_ai_api_key, in .env or in config. Secrets also never leak into generated code. With OAuth, user can even skip the journey to haunt their next \"access token\".\n\n#4 Ecosystem\nEarly MCPs were mostly hobbyist projects. Now, more companies see MCPs as strategic assets in the agentic economy, with official MCPs offering polished design. All while OSS is still thriving\n\nthat being said, like all the techs, anything has trade-offs.\nCompared to APIs, MCPs are more resources hungry(need to spin up client-server connection) , less stable and less performing compared to raw APIs. \n\nIn many ways, MCP feels a lot like a Node in n8n.\nIt’s not about offering the absolute highest performance or flexibility like raw APIs. Instead, it’s about optimizing for usability while still delivering broad utility.\n\nThat makes MCP a perfect fit for scenarios like personal automations, where what matters most is being able to build something easily and quickly, rather than squeezing every ounce of scalability or performance. \n\n========================================================\nIf you want to see how MCP speed up automation building, Datagen turns your Claude app into a vibe-coding platform that can access your favorite apps via MCPs.\n\nWith three simple steps only: \n1) Install the Datagen MCP in Claude.\n2) Find your App's MCP and ask Claude to install them on Datagen \n3) Ask Claude to build an automation  \n\nWe’re looking for early beta testers.  if you still get bugged by all the boring stuffs and have no time for n8n, feel free to dm me for free credits to try.",
+    "reactionsCount": 4,
+    "commentsCount": 0,
+    "activityDate": "2025-09-05T19:35:13.455Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7369815389708541952",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_apis-vs-mcps-in-vibe-coding-whether-you-activity-7369815389708541952-AlQb?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7366903229151907840",
+    "text": "ALL in MCP\n\nRecently, we decided to stop most of our frontend work for our workflow builder on our website, and instead fully focus on MCP.\n\nYeah, it’s a bit reckless. And honestly, it might turn out to be a huge mistake. \n\nBut like Brian Balfour said in his interview with Lenny, startups don’t get the luxury to try many things at once. You need to find your conviction and go all in. We felt the pain of building both MCP and our traditional UI/UX. Even with the same API backend, the design principles are quite different. It kind of naturally leads us to decide on one and commit.\n\nI do want to share some of the conviction and observations we have that leads to this decision. \n\n1. Magical moment: \nEven with all the criticisms of MCP, I still remember how I felt the first time I plugged in an MCP and suddenly the LLM just worked for me. I could choose what I wanted to use, without relying on provider’s “priority” for integrations. The LLM + MCP create a smooth experience to bring my thought to action that I have never experienced before, and it felt like living in the future. That \"magical moment\" is the main reason we want to go all in and to build.\n\n2. Behavioral change: \nThe real test is: do I often find myself wishing I had MCP in my workflow? A successful product changes behavior. Now we create tickets in Claude, get user info from Claude, and I get annoyed when I run out of context. I also frustrated that we use Fly’s Postgres instead of Supabase or Neon, who has native MCP supports to let me quickly build my queries. This kind of frustration shows me that MCP is shaping my expectations, and that drives behaviors change.\n\n3. ChatGPT and Claude are the iPhone, not AWS: \nIt's no secret they aren’t trying to be just infrastructure. They are building ecosystems, like Apple did. Their North Star now is active users, and they design for their largest user base. They add features constantly to keep people on the platform(Honestly, once they figure out how to linearly turn screen time into revenue, I don’t think they’ll have much financial incentive to support API products, just like google search api). If the LLM client is the iOS, then MCP is the app. And if this platform grows fast, building native apps on it gives a big advantage over those who just “keeps a seat.”\n\nMy thesis is that whenever there’s a new way to access information, a new platform will appear to natively serve that information consuming process, and that platform will create an ecosystem. \n1. GUI -> The rise of simple way to control data -> PC -> Desktop APPs.\n2. Internet -> The rise of access world wide data -> Browser -> Web Apps\n3. Mobile -> The rise of access internet data on the go -> iPhone -> Mobile Apps\n4. LLM -> The rise of access personalized synthesized information -> ChatGPT/Claude -> (MCP)? \n\nThis is my thesis. But who knows",
+    "reactionsCount": 20,
+    "commentsCount": 8,
+    "activityDate": "2025-08-28T18:43:20.273Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7366903229151907840",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_all-in-mcp-recently-we-decided-to-stop-activity-7366903229151907840-pZsb?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7359724971423617024",
+    "text": "Building Stock Analysis agent in Claude\n\n[Background] \nThis is about my learning on how to use Claude/ChatGPT +MCP beyond \"google alternative\" and be \"assistant\" . (my def of agent is a process that given goal it would continue to use tools and take multi-steps to reach it)\n\n[Results]\nA daily stock analysis agent that: \n -- pulls latest reddit discussion in r/wallstreetbets , r/stocks about the stock\n--  calculates technical indicators  including RSI, volume analysis, etc.\n--  retrieve latest news related to stocks\nand finalize to a buy/put suggestions like shown in videos. \n\n[How]\nI found it very useful to develop each “module\" in separate chat. and after i get good results, i ask Claude to summarize the \"process\" as an artifact and save to my project. \n * reddit: Use reddit browse MCP to pull post/comments for a given stock while ignoring all useless nonsense\n * technical indicators : I use Datagen MCP to connect to financialdataset.ai MCP so it can directly use their tools as python function to pull daily price and calculate all realtime technical indicators\n* web research news: Claude’s native web research to focus on a) major potential macro economic news and b) news specific to the stock \n\nFinally, Attached all these artifacts to a Claude project and add an instruction with \"step-by-step\" prompt. with this Claude can work more like a \"workflow\" to follow the instructions without going wild. (you can find details in comments)\n\n[Learning]\n-- Spec is new code: coined by OpenAI. I think the way we think what makes a software is changing. To build the agent I made today an year ago would either requires me to use n8n, or code with Langchain. but now it can just be done in Claude with me talking to it. what used to be writing custom API integrations now requires just an MCP. \n\n-- Adaptive: if I build this agent in n8n or code. it would be painful to change number of look up days if I did not parameterize it ahead of time. while developing in Claude just need me to ask and re-summarize. It feels way more organic and can rapidly adapt my needs on the fly compared to regular codes. \n\n-- Portability: this is what i emphasized before with MCPs. With just few markdown file, MCP list( i intentionally only look for remote MCPs so its super easy to connect), you can start to run w/o installing any dev environments or apps. and you can run on any LLM client(OS) that supports MCPs \n\nWhile its still far fetch to consider this “software” to run mission critical workflows, but I think its perfect for individual or even small teams to delegate their small tasks for their very needs given how easy it can be built nowadays.",
+    "reactionsCount": 10,
+    "commentsCount": 6,
+    "activityDate": "2025-08-08T23:19:30.265Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7359724971423617024",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_building-stock-analysis-agent-in-claude-activity-7359724971423617024-NRQQ?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7359336903717908481",
+    "text": "when I drive Tesla : Milage Anxiety \nwhen I use Claude: Token Anxiety",
+    "reactionsCount": 0,
+    "commentsCount": 0,
+    "activityDate": "2025-08-07T21:37:27.714Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7359336903717908481",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_when-i-drive-tesla-milage-anxiety-when-activity-7359336903717908481-9WDw?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7357702621274521600",
+    "text": "While many argue MCP is just an API wrapper, by getting deeper into agent/MCP development, I found two specific benefits that I can hardly find in most API designs. And no, it's not about those primitives like resource, prompts or sampling. it's b/c of their client/server design.\n\n[OAuth Authentication]\nMost APIs require static API keys or Bearer tokens. If I build something and share to you, you can't just run it. you need your own account, API key, and secure storage setup. \nIn contrast, many remote MCP servers support OAuth to allow users authenticate through URLs instead of managing keys. For example, users can add Linear MCP to Datagen by simply asking Claude: \"Help me add Linear MCP to Datagen.\" We return an auth URL, they log in, done. No API key hunting required. This smooth process is made possible by MCP servers acting as a middleman to handle auth complexity between the client and upstream API providers without relying on client supports.\n\n[Server/client chaining]\nUnlike most single-server APIs, MCP servers can also act as clients to other MCP servers, to effectively create this composable middleware. \nFor example, Toolhouse can operates as an MCP client to fetch data from other MCP servers, processes it using AI agents, then passes the results back through Claude as an MCP server. Similarly, Datagen MCP lets you turn your MCP servers into Python-callable functions, executing them on our infrastructure and returning calculated results to Claude via the Datagen Server. This chaining behavior is again made possible by the client/server design at the heart of MCP. \n\nAnd I think these features are particularly relevant in AI era. with more \"software\" are shared through prompt, a smooth auth experience is much needed for integrations. The controllable server chaining also is super relevant to optimize the context(only expose relevant context to main agent w/o losing the source integrations).  Maybe b/c I am very limited or ignorant, I actually haven't seen much APIs can provide this level of service. \n\nWhile it's still early, simply by getting into the weeds more, I guess I start to see more of the vision from the protocol creators(?).  But TBH, quite thankful for this protocol and what it has enabled. \n\nps. recommend latent space and ai + a16z 's podcast with MCP creators. can get more understanding of the origins of many less-known primitives in MCP.",
+    "reactionsCount": 10,
+    "commentsCount": 5,
+    "activityDate": "2025-08-03T09:23:24.416Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7357702621274521600",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_while-many-argue-mcp-is-just-an-api-wrapper-activity-7357702621274521600-qwIa?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7357310778149924864",
+    "text": "How to Build an FAA Service Difficulty Report Database with Claude\n\n[Background]:\nInspired by Jordan Crawford’s \"Build a database from public data in an hour\", we tried to follow suit and share our learnings on how to do it with Claude + MCP, so no coding or development environment is needed other than installing MCPs. I will try to share results with very specific data each time, but hopefully we can gradually generate patterns with more examples\nAll prompts will be shared in the comments, along with sample data. so you can feed it as doc to create your own scraper. \n\n[Data]\nThe example for this post is the FAA Service Difficulty Report, a public data source that reports all the difficulty reports for aircraft. \nThis data source has been discussed in Jordan's Cannonball GTM to gain insights on aircrafts maintenance and safety.\n\n[MCPs]\n1. Supabase MCP: a database MCP to create databases and review SQL (alternative: Neon MCP)\n2. Datagen MCP (from us): a Python interpreter tool with MCP access to let Claude write code to integrate with MCP as functions. (Alternative: e2b MCP, which requires providing API documentation and an API key for Supabase)\n\n[Prompt Flow]:\n1. Start by asking Claude Opus (or OpenAI o3) “How can I get data from FAA SDR?” \n2. Take the output from step 1 and ask Claude to build and execute code in Datagen MCP. If it fails, ask what it sees and why it fails to build more context. \n→ Get the working scraper and a few sample data points.\n3. Take sample data from step 2 as context to let Claude use Supabase MCP to create a table, then use Datagen MCP to build the data pipeline. \n→ Full data posted in Supabase.\n4. Verify the result by asking Claude, using Supabase MCP, to get a data summary. \n5. Summarize code and step flow for future use (it's important to include working code from step 3).\n\n\n[Some learnings]\n1. Treat Claude as a development platform instead of an answer engine. Stay away from one huge prompt; start small and iterate.\n2. If possible, be specific with the tool you want.\n3. Constantly summarize the conversation as a checkpoint (like Claude code's /compact).",
+    "reactionsCount": 4,
+    "commentsCount": 4,
+    "activityDate": "2025-08-02T07:26:21.735Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7357310778149924864",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_how-to-build-an-faa-service-difficulty-report-activity-7357310778149924864-gkLU?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7354410283068518401",
+    "text": "How to make MCPs work with large data\n\nTL;DR: Use code.\n\nSay you use MCP to scrape Google Maps data from Apify MCP, and now you want to save it to Supabase for analysis. Before you realize it, you get hit with \"your new limit starts at 4am tomorrow\" while transferring just 200 rows of data due to the number of tokens it requires to let the LLM copy and paste it.\n\nIn contrast, if you simply ask Claude to write code to pass data from Apify to Supabase, those same 20 tokens of code can now scale to handle thousands of rows without adding any additional tokens.\n\nHowever, here's the problem: even if you have Apify MCP and Supabase MCP, Claude still can't access them through code. It typically requires heavy investment in context engineering like providing additional API docs, including API output examples, and handling separate authentication for your API keys/tokens (let alone all these different API designs like GraphQL vs REST).\n\nBut what if LLMs could use MCP in code just like they do in context? From this question, we started to build a code execution tool that can convert MCP into Python functions. So now your MCP can not only provide context to the LLM but can also be used by the LLM as code.\n\nThe video below shows how Claude easily transfers 300K tokens of data with just 2K tokens of code from Apify to Supabase. No more context blow up, no additional API docs, no separate auth flow, no another MCP server — just your original MCPs + our code execution tool.\n\nWhat this unlocks is that now you can:\n1) Scrape anything you want on the internet and save it into your database( Apify <-> Supabase MCP)\n3) Enrich them in bulk (Supabase <-> Fullenrich MCP)\n4) Push newly qualified lead into CRM (Supabase <-> Hubspot MCP)\n5) Create email campaigns from your CRM (Hubspot <-> Smartlead MCP)\nAll can be done in Claude + few MCPs in minutes without writing any codes yourself.\n\nI always believe the real power of LLM + MCP is not controlling a single server with natural language, but allowing the LLM to orchestrate across all your data that is scattered in silos and quickly turn your ideas into results. \n\nAnd I think by allowing MCP to be used both in context and code can fully unlock this potential.",
+    "reactionsCount": 15,
+    "commentsCount": 4,
+    "activityDate": "2025-07-25T07:20:49.819Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7354410283068518401",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_how-to-make-mcps-work-with-large-data-tl-activity-7354410283068518401-cnb2?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7353285930251657216",
+    "text": "In one of  the recent Latent Space podcast with Cline, Alessio discussed he thinks MCP is going to cannibalize SaaS. He doesn't even bother paying for Sentry's debugging AI agent, but just pulls the raw logs for free from Sentry's MCP and lets his IDE's AI agent debug for him. A friend of mine also rather copy and paste his Notion content to Grok than paying for Notion AI. They already paid for their coding agent, Grok subscription. Why subscribe to another again?\n\nI see most of \"vertical AI\" for most SaaS products as a losing battle. To me, the real AI-native company is not the company that builds AI agents into their services, but makes their products easily usable by AI, not just humans. And I think that is the real moat. Not calling APIs or building some scaffolding to solve a vertical/niche issue.\n\nBesides the unmatched efforts inference providers put in to perfect their AI agent, one factor I don't see people discuss enough is cost. People estimate most of API margins are around 80%. That is why you see many Claude Code users saves thousands by subscribing to Claude Max compared to raw API calls. This abundance allows inference providers to build agents and engineer context in a financially reasonable way that even Cursor can hardly compete.\n\nI think an easy way to tell if a product is going to be consumed by inference providers is if your product is AI complete. While many encourage you to build AI complete companies to easily benefit whenever the model improves, the reality is yes, you improve, but also get replaced. Instead, I think products that get \"enabled\" but not necessarily \"completed\" by AI are safer.\nPeople often say you should build Uber instead of flashlight in the AI era. To me, Uber is iPhone-enabled, but not iPhone-complete. It means today even if you have the best/complete iPhone, you still need Uber's fleet. This isn't the same for many camera apps.\n\nThis is why I am bullish on most of the pre-AI SaaS companies over post-AI era companies. This doesn't mean they don't need to adapt. Their efforts should focus not on how to build an AI agent but optimize their products/business models to not just abstract away complexity from humans but also AI.\nCompanies that want to hoard the users/records to their own platform with their own AI will easily be replaced by companies that are willing to join the ecosystem. Similar to how you get ranked highly on Google if you allow them to scrape your content.\n\nI don't think Sentry would be replaced by AI-native companies (Alessio still need \"Sentry MCP\"), but many AI debugging companies would be replaced by OpenAI. VSCode will still dominate but I doubt Cursor can continue to grow strong.\n\nBuilding tools, not AI agents, is probably what most products should focus on",
+    "reactionsCount": 6,
+    "commentsCount": 4,
+    "activityDate": "2025-07-22T04:53:03.218Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7353285930251657216",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_in-one-of-the-recent-latent-space-podcast-activity-7353285930251657216-WfB8?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7351393563978424321",
+    "text": "Use MCP + Claude to build automation \n\nConclusion first: the video below shows how i use just prompt to create a daily signal table in Supabase for WingWork. \n\n[Background]: After watching Jordan Crawford's last Cannonball for WingWork, I decided to test if we could fully automate the account scoring table using only Claude + MCP without any code.\n**disclaimer: I am by no mean a qualified GTM folks, so its just me exploring with tools and test cases\n\n[Data Sources]:\nFAA Registry\nService Difficulty Reports\nCompliance Violations\n\n[Development Process]:\n1) Data Collection: Used our tool to create scrapers for SDR and compliance data, but ended up writing custom scripts for FAA registry due to data size\n\n2) Table creation: Pure Claude + Supabase MCP for processing and our tool for enrichment. From calculating SDR per flight, fleet diversity, aircraft \ndepreciation, license expiration, and compliance/maintenance stress metrics all the way to company and leadership enrichment.\n\n3) Deployment:  Asked Claude to summarize everything into workflow.md with steps, tools, and fallback mechanisms. A 7-step workflow.md now serves as my automation code and my MCPs are the dependencies.\n\n[What Worked]:\n- Speed: As someone who's done data analysis for years, it still feels magical to just describe what you want and have it handled. This automation pipeline would normally take hours or even days to develop and deploy.\n\n- Instructions as Code: By restricting to MCP-only interactions, brainstorming instantly becomes deployable. \n\n- Built-in Resilience: When my enrichment tool failed, Claude automatically fell back to web research. This adaptability beats traditional code that would just crash, but it brings unpredictability too.\n\n- Framework Portability: The workflow.md + MCP combination works across any agent framework that supports MCP with minimal adaption.\n\n[What Didn't Work]:\n- No Task Scheduling: Biggest complaint. Claude lacks built-in scheduling while ChatGPT and Grok already have this.\n\n- Async Limitations: Our tools use async (submit + check status) to prevent blocking, but Claude has no real polling mechanism. Hard to control when it checks back on long-running jobs.(May work with Progress with recent spec updates)\n\n- Scale Constraints: High-volume, long-running operations remain challenging. Even our AI-generated bridge tools struggle with large datasets. something we are solving. \n \n[Lessons Learned]:\n- Design atomic tools that \"serves\" the LLM\n- Create new tables along the way as version control with full audit trails\n- Need MCP-to-code converter for scalability - LLMs should summarize tool usage processes into code blocks just like they summarize context into .md",
+    "reactionsCount": 8,
+    "commentsCount": 1,
+    "activityDate": "2025-07-16T23:33:27.940Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7351393563978424321",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_use-mcp-claude-to-build-automation-conclusion-activity-7351393563978424321-6Z1q?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7350442954106228736",
+    "text": "Lately, I have been forcing myself to finish the work within Claude + MCPs. \nNot to save a few clicks, but because completing work end-to-end in Claude + MCPs allows the whole process to be replicated and scaled without external dependencies simply by packaging the conversation into a markdown file. This mirrors the pattern I have seen in Claude Code's /command and similar approaches. \n\nBut I kept hitting a major limitation: large context exchanges between MCP tools. \nEven just pushing a few dozen rows from Apify to Supabase causes Claude to puke [me as a proud broke Pro user] . \nHere's the typical context flow running into this issue: \n1) User asks to save Apify data to Supabase \n2) Claude calls Apify tool with massive data payload in response \n3) Claude ingests all data (heavy input tokens) \n4) Claude generates full SQL insert statements (heavy output tokens) \n5) Supabase returns simple confirmation \nStep 3 and 4 waste millions of tokens , produces unreliable results, runs extremely slow, and often crashes the workflow like a segmentation fault.\n\nOur [tentative] solution: Build \"bridge tools\" between MCP tools. \nInstead of Claude memorizing and rewriting data, it calls a dedicated tool to handle the data transfer between Apify and Supabase(step 2 to 4). \nThe updated flow: \n1) User makes request \n2) Claude calls Apify-to-Supabase tool (minimal tokens) \n3) Tool returns success message and data location \nThis is token efficient, deterministic, fast, and transforms Claude from data messenger to orchestrator with extended working horizons. \n\nThe challenge now is how to build these tools efficiently.\nThere are many possible approaches. We're working on one too.",
+    "reactionsCount": 7,
+    "commentsCount": 2,
+    "activityDate": "2025-07-14T08:36:04.885Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7350442954106228736",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_lately-i-have-been-forcing-myself-to-finish-activity-7350442954106228736-SYI7?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  },
+  {
+    "activityId": "7337938157763444736",
+    "text": "Centralized vs Embedded AI\nI got pulled into this discussion after seeing Pipedream's (an MCP gateway vendor) recent design decision to only expose instructions(a natural language interface to control their tool) in contrast to typical input arguments of the underlying API.\n\nWhile I think the major motivation behind their move is to lock in users, it's still interesting to consider whether we should wrap our MCP tool to work like a small embedded AI agent specialized in its respective tool and take instructions from other AI.\n\nAs someone who both uses and builds MCPs, I see 4 major issues with embedded AI in MCP tools:\n\nPrompt: Using embedded AI means asking the LLM to guess the optimal prompt for getting results. It's much simpler to provide input arguments directly and let it update based on deterministic error messages feed back loop.\n\nEval: It's far easier to detect incorrectly typed input parameters than to evaluate the effectiveness of prompts for tool calls.\n\nReliability: Since most people interact with MCPs through LLM clients, each additional layer of LLM calls introduces more potential points of failure.\n\nControl: Most MCPs are vendor-provided. If vendors wrap their LLM on top of their tool and the LLM wrapper performs poorly, you're bottlenecked by their implementation regardless of how advanced your LLM client model is.\n\nWhen I use a screwdriver, I don't want its manual to change every time. I want it to be reliable and work as expected, every single time. So if you're building an MCP for your service, don't overthink it. Focus on clear documentation and use case but keep the tool as boring as possible. Delegate tool usage to a centralized AI layer controlled by users\n\nWhile automation almost feels like a despicable term compared to AI agent, I would focus more on building reliable automation to create truly useful AI applications. I would take 5% failure rate due to missed edge cases than a 10% failure rate on 68% of my common cases every-single-time.",
+    "reactionsCount": 8,
+    "commentsCount": 2,
+    "activityDate": "2025-06-09T20:26:29.109Z",
+    "author": {
+      "authorId": "ACoAAAkpaBoBawn-5HIc8yiYo5-Uh6U_GWUt_6s",
+      "authorName": "Yu-Sheng Kuo",
+      "authorPublicIdentifier": "yu-sheng-kuo-87658743",
+      "authorImage": "https://media.licdn.com/dms/image/v2/D5603AQFx4SO6-M5GBQ/profile-displayphoto-crop_800_800/B56ZkREGmmG4AM-/0/1756927913108?e=1772668800&v=beta&t=tcBTbbL6kW8ff7Q681f97sgyIO5aUCKYsRUGcowiw6E",
+      "authorUrl": "https://www.linkedin.com/in/yu-sheng-kuo-87658743"
+    },
+    "activityUrl": "https://www.linkedin.com/feed/update/urn:li:activity:7337938157763444736",
+    "shareUrl": "https://www.linkedin.com/posts/yu-sheng-kuo-87658743_centralized-vs-embedded-ai-i-got-pulled-into-activity-7337938157763444736-t0Fg?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAGNInz4BaLuvEyCybQGUqadzTDV-JnEhAyo",
+    "isRepublishedPost": false,
+    "relatedPost": null
+  }
+]
