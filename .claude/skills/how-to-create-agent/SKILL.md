@@ -47,10 +47,10 @@ datagen login        # opens browser for DataGen auth
 
 These require interactive browser auth flows. Everything else in this workflow can be done inside Claude Code.
 
-## The 8-step agent creation workflow
+## The 9-step agent creation workflow
 
-Steps 0-4: **Build** the agent locally
-Steps 5-7: **Deploy** the agent to DataGen
+Steps 0-5: **Build** the agent locally
+Steps 6-8: **Deploy** the agent to DataGen
 
 ### Step 0: Identify and prepare the context layer
 
@@ -97,14 +97,33 @@ Watch for issues described in @context/edge-cases.md.
 
 **Why this matters**: Without context layers, the agent either guesses at domain knowledge (unreliable) or the user has to re-explain it every session (tedious). Context files make the expertise persistent, shareable, and updatable independently from the agent workflow.
 
-### Step 1: Register
+### Step 1: Look up the latest .md file format for agents and skills
+
+**This step is mandatory. Do not skip it.**
+
+Before writing any agent or skill `.md` file, use the `claude-code-guide` subagent to research the current required format:
+
+```
+Task(subagent_type="claude-code-guide", prompt="Research the correct format for Claude Code custom agents defined in .claude/agents/ directory and skills defined in .claude/skills/ directory. What frontmatter fields are required/supported? What is the naming convention? How does discovery and invocation work?")
+```
+
+This ensures you use the correct frontmatter fields (`name`, `description`, `tools`, `model`, etc.) instead of guessing. The format may evolve -- always check before creating.
+
+**Key findings to apply:**
+- Agent `.md` files require YAML frontmatter with at minimum `name` (lowercase + hyphens) and `description`
+- Skills live in `.claude/skills/<name>/skill.md` and are invoked via `/name`
+- Agents live in `.claude/agents/<name>.md` and are invoked as subagents via the Task tool
+- The `tools` field is an allowlist -- if omitted, the subagent inherits all tools from the parent
+- Agents are loaded at session start; restart Claude Code or run `/agents` after adding new ones
+
+### Step 2: Register
 
 1. Run `/agent` to create a new agent
 2. Select the project
 3. Give the agent access to **all tools** it might need
 4. Write a clear scope description -- what job does this agent do?
 
-### Step 2: Develop (the critical step -- don't skip)
+### Step 3: Develop (the critical step -- don't skip)
 
 1. Run `/clear` to start with a fresh context
 2. **Manually walk through the task** in normal Claude Code mode, step by step
@@ -117,7 +136,7 @@ Watch for issues described in @context/edge-cases.md.
 
 > This is the most important step. Auto-generating agent definitions from a description produces hallucinated prompts. Prototyping the workflow first captures real tool names, real parameters, and real edge cases.
 
-### Step 3: Update
+### Step 4: Update
 
 1. Summarize the action trace from Step 2
 2. Structure the agent definition as **indexed step files**:
@@ -129,9 +148,11 @@ Watch for issues described in @context/edge-cases.md.
    - Set up hooks for quality gates
 4. Update the agent `.md` file with the step-by-step definition
 
-### Step 4: Test
+### Step 5: Test
 
-1. Run `/clear` again for a clean context
+> **Important:** If you just created or modified an agent `.md` file, you must restart Claude Code before the agent will be discoverable. Agents are loaded at session start -- changes to `.claude/agents/` are not picked up mid-session.
+
+1. Exit Claude Code and restart with `claude -r` to resume the conversation with the new agent loaded
 2. Run the agent on the target task
 3. Observe:
    - Does it follow the steps in order?
@@ -141,7 +162,7 @@ Watch for issues described in @context/edge-cases.md.
 
 ---
 
-### Step 5: Push to GitHub
+### Step 6: Push to GitHub
 
 Once the agent works locally, push it to GitHub so DataGen can discover it.
 
@@ -165,7 +186,7 @@ git push
 
 The agent definition lives in `.claude/agents/` -- DataGen auto-discovers any `.md` files in that directory.
 
-### Step 6: Connect repo to DataGen
+### Step 7: Connect repo to DataGen
 
 ```bash
 # If GitHub App is not installed yet (first time)
@@ -184,7 +205,7 @@ datagen github sync <owner>/<repo-name>
 datagen agents list --repo <owner>/<repo-name>
 ```
 
-### Step 7: Deploy and configure
+### Step 8: Deploy and configure
 
 ```bash
 # Deploy the agent (creates a webhook endpoint)
@@ -249,6 +270,7 @@ This follows the Recursive Language Model (RLM) pattern: treat context as an ext
 3. **Skipping the trace step** -- jumping straight to writing the agent definition without manually walking through the task. This is the #1 cause of brittle agents.
 4. **Monolithic agents** -- building one massive agent instead of composing smaller skills. Harder to debug, harder to reuse.
 5. **No validation** -- hoping the model produces correct output instead of defining schemas and using hooks to enforce them.
+6. **Missing frontmatter** -- creating agent/skill `.md` files without the required YAML frontmatter (`name`, `description`, `tools`, etc.). Always run the `claude-code-guide` lookup in Step 1 to get the current format before writing any `.md` files.
 
 ## Examples
 
