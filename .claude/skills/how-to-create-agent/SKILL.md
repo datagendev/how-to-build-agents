@@ -26,7 +26,7 @@ Before starting, ensure these CLI tools are installed:
 
 1. **DataGen CLI** -- for deploying and managing agents
    ```bash
-   npm install -g @anthropic-ai/datagen-cli
+   curl -fsSL https://cli.datagen.dev/install.sh | sh
    ```
 
 2. **GitHub CLI (`gh`)** -- for committing, pushing, and managing repos

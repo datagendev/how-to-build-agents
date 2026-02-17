@@ -7,7 +7,8 @@ A reference repo for building reliable Claude Code agents and deploying them to 
 ```bash
 # Prerequisites (run in a regular terminal, not inside Claude Code)
 brew install gh
-npm install -g @anthropic-ai/datagen-cli @anthropic-ai/claude-code
+npm install -g @anthropic-ai/claude-code
+curl -fsSL https://cli.datagen.dev/install.sh | sh
 gh auth login
 datagen login
 ```

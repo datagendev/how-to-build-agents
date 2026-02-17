@@ -27,7 +27,7 @@ Everything else below can be run inside Claude Code via Bash.
 Install the CLIs if not already present:
 ```bash
 brew install gh                          # GitHub CLI
-npm install -g @anthropic-ai/datagen-cli # DataGen CLI
+curl -fsSL https://cli.datagen.dev/install.sh | sh  # DataGen CLI
 ```
 
 ## The deployment workflow

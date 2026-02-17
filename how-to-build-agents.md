@@ -94,7 +94,7 @@ The value is not the code -- it's the domain knowledge encoded within. A domain 
 
 ```bash
 npm install -g @anthropic-ai/claude-code      # Claude Code
-npm install -g @anthropic-ai/datagen-cli       # DataGen CLI
+curl -fsSL https://cli.datagen.dev/install.sh | sh  # DataGen CLI
 brew install gh                                 # GitHub CLI
 
 # One-time login (run in a regular terminal, not inside Claude Code)
